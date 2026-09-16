@@ -1,0 +1,5 @@
+# Local run artifacts: full ZIPs and .pt checkpoints stay local / in a GitHub release.
+pacman_runs/
+.venv/
+run.log
+__pycache__/
