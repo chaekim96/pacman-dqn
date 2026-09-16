@@ -16,6 +16,10 @@ from the run's own output files (linked in the [Evidence](#evidence) section).
 2. The three settings are in **section 1** (`EXPLORATION`, `EPISODES`, `LEARNING_RATE`). This repo's copy already contains my values.
 3. **Run All**. Section 2 installs packages; the notebook then evaluates the untrained network, trains, evaluates again, and zips the results into `pacman_runs/<timestamp>/`.
 4. The notebook in this repo is the executed final-run version with all outputs (scores, plot, GIFs) visible.
+   GitHub's built-in notebook preview shows the text outputs and the plot but does not play the embedded GIF
+   outputs; to see those inside the notebook, open it on
+   **[nbviewer](https://nbviewer.org/github/chaekim96/pacman-dqn/blob/main/pacman_dqn.ipynb)** or download it.
+   All six GIFs are also embedded directly in this README under [Evidence](#evidence).
 
 <details>
 <summary>How I ran it locally (macOS, no Colab)</summary>
