@@ -41,9 +41,25 @@ uv pip install --python .venv/bin/python "torch>=2.6,<3" "gymnasium==1.3.0" "ale
 
 | Setting | Value | Why I chose it |
 |---|---|---|
-| **Exploration** | `0.20` | 20% random moves after warm-up. The notebook's default and a middle ground: enough randomness to keep discovering new maze situations, while the network still plays its own policy 80% of the time so replay memory reflects what it actually does. |
+| **Exploration** | `0.20` | Kept at the notebook's default on purpose, as a control (see below). |
 | **Episodes** | `100` | The notebook's default and enough to clear the 1,000-decision warm-up many times over. It also crosses the 25-episode threshold four times, so I get intermediate GIFs and checkpoints at episodes 25/50/75/100 to see *when* behavior changed. |
 | **Learning rate** | `0.00025` | 2.5× the reference value of `0.0001`. With only 100 short games (~14k updates), I wanted each update to move the weights enough for change to be visible, without going as far as `0.001`, which risks unstable Q-values and a non-finite loss. |
+
+**Why exploration stayed at 0.20.** Four things drove this:
+
+1. **It only matters after warm-up.** The first 1,000 decisions are 100% random no matter what I set, so this
+   number describes the agent's behavior for the other ~56,800 decisions of the run, not the start.
+2. **It decides what goes into replay memory, not how the network learns from it.** At 20%, one move in five
+   is random, so the agent keeps bumping into maze situations it would never choose on its own—a corridor it
+   avoids, a ghost it usually turns away from. The other 80% of its experience is its own policy, so it is
+   mostly practicing what it actually does. Higher exploration would fill memory with situations the trained
+   agent rarely faces; lower would let it settle into one habit and never see alternatives.
+3. **It is a control.** I changed one knob in this experiment (learning rate). Leaving exploration and episodes
+   at the notebook's baseline means any difference I see against a default run can be attributed to that one
+   change rather than to a mix of three.
+4. **It never touches the scores directly.** Evaluation always uses 5% exploration, before and after training,
+   regardless of this setting. So exploration only shapes the training data; the before/after comparison in
+   this README is unaffected by it.
 
 Only these three lines in section 1 were edited. Evaluation settings (5 seeds `[101, 202, 303, 404, 505]`,
 5% exploration, 3,000-decision time limit) are unchanged and identical before and after training.
